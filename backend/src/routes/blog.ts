@@ -15,15 +15,22 @@ export const blogRouter = new Hono<{
 
 blogRouter.use("/*", async (c, next) => {
   const header = c.req.header("authorization") || "";
-  const response = await verify(header, c.env.JWT_SECRET);
-  if (response.id) {
-    c.set("userId", response.id);
-    await next();
-  } else {
+  try {
+    const response = await verify(header, c.env.JWT_SECRET);
+    if (response.id) {
+      c.set("userId", response.id);
+      await next();
+    } else {
+      c.status(403);
+      return c.json({
+        error: "unauthorized: you are not logged in",
+      });
+    }
+  } catch (error) {
     c.status(403);
-    return c.json({
-      error: "unauthorized: you are not logged in",
-    });
+      return c.json({
+        error: "you are not logged in",
+      });
   }
 });
 
