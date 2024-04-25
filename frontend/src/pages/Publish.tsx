@@ -17,7 +17,7 @@ const Publish = () => {
         }
     });
     console.log(response);
-    navigate(`blog/${response.data.data.id}`)
+    navigate(`/blog/${response.data.data.id}`)
   };
   return (
     <div>
