@@ -13,7 +13,7 @@ export const signinInput = z.object({
 export const createBlogIbput = z.object({
   title: z.string(),
   content: z.string(),
-  published: z.date(),
+  published: z.date().optional(),
 });
 
 export const updateBlogIbput = z.object({
