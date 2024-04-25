@@ -8,6 +8,9 @@ function Blog() {
   if(loading){
     return <h1>Loading...</h1>
   }
+  if (!blog) {
+    return <h1>Blog not found</h1>;
+  }
   return (
     <div><BlogMain blog={blog}/></div>
   )
