@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@alone_npm/easy-common": "^1.0.0",
+    "@types/axios": "^0.14.0",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
