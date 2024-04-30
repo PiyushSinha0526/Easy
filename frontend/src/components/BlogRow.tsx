@@ -15,19 +15,22 @@ const BlogRow = ({
   published,
 }: BlogRowProps) => {
   return (
-    <Link to={`/blog/${id}`} className="flex cursor-pointer flex-col p-5 border-b-2">
+    <Link
+      to={`/blog/${id}`}
+      className="flex cursor-pointer flex-col border-b-2 p-5"
+    >
       <div className="flex items-center gap-6">
         <div className="flex items-center">
-          <div className="relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
+          <div className="relative inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-gray-100 sm:h-8 sm:w-8 dark:bg-gray-600">
             <span className="font-medium capitalize text-gray-600 dark:text-gray-300">
               {authorName?.[0]}
             </span>
           </div>
-          <span className="ml-2 text-sm font-medium capitalize">
+          <span className="ml-2 text-xs font-medium capitalize sm:text-sm">
             {authorName}
           </span>
         </div>
-        <div className="flex items-center text-sm">
+        <div className="flex items-center text-xs sm:text-sm">
           <div className="flex items-center">
             <span className="h-1 w-1 rounded-full bg-black"></span>
           </div>
@@ -37,15 +40,20 @@ const BlogRow = ({
       <div className="flex justify-between">
         <div>
           <div className="mt-3 flex flex-col">
-            <h2 className="pb-2 text-xl font-bold text-slate-800">{title}</h2>
-            <p className="text-wrap text-base text-slate-600">
+            <h2 className="pb-2 text-base font-bold text-slate-800 sm:text-xl">
+              {title}
+            </h2>
+            <p className="hidden text-wrap text-base text-slate-600 sm:block">
               {content.slice(0, 100)}...
             </p>
           </div>
-          <div className="flex items-center py-8 text-sm">
+          <div className="flex items-center py-8 text-xs sm:text-sm">
             <ul className="flex gap-2 pr-4">
               {Array.from({ length: 3 }).map((_, i) => (
-                <li key={i} className="rounded-full bg-slate-300 px-3 py-1">
+                <li
+                  key={i}
+                  className="rounded-full bg-slate-300 px-2 py-1 sm:px-3 sm:py-1"
+                >
                   tag{i + 1}
                 </li>
               ))}
@@ -53,8 +61,8 @@ const BlogRow = ({
             <span>{"9"} min read</span>
           </div>
         </div>
-        <div className="w-32 bg-blue-100">
-          <img src="https://picsum.photos/200" alt="" />
+        <div className="w-24 sm:w-32">
+          <img src="https://picsum.photos/200" alt="thumbnail" />
         </div>
       </div>
     </Link>
