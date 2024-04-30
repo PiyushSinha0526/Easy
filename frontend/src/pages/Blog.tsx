@@ -12,7 +12,7 @@ function Blog() {
     return <h1>Blog not found</h1>;
   }
   return (
-    <div><BlogMain blog={blog}/></div>
+    <BlogMain blog={blog}/>
   )
 }
 
