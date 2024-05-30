@@ -2,6 +2,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Editor from "../components/Editor";
 
 const Publish = () => {
   const [title, setTitle] = useState("");
@@ -20,10 +21,10 @@ const Publish = () => {
     navigate(`/blog/${response.data.data.id}`)
   };
   return (
-    <div>
+    <div className="mx-auto max-w-screen-md mt-3 px-4">
       <label
         htmlFor="title"
-        className="mb-2 block text-sm font-medium text-gray-900"
+        className="mb-1 block text-sm font-medium text-gray-900"
       >
         Title
       </label>
@@ -31,12 +32,12 @@ const Publish = () => {
         type="text"
         id="title"
         aria-describedby="title-explanation"
-        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
+        className="block mb-3 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-black focus:ring-black "
         placeholder="Title"
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <label
+      {/* <label
         htmlFor="message"
         className="mb-2 block text-sm font-medium text-gray-900 "
       >
@@ -48,7 +49,8 @@ const Publish = () => {
         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
         placeholder="Write your thoughts here..."
         onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
+      ></textarea> */}
+      <Editor/>
       <button
         onClick={() => handleSubmit()}
         type="button"
