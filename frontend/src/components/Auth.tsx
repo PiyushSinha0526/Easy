@@ -12,11 +12,14 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
   });
   const navigate = useNavigate();
   async function sendRequest() {
-    console.log('Request', `${BACKEND_URL}/api/v1/user/${type}`);
+    console.log("Request", `${BACKEND_URL}/api/v1/user/${type}`);
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type}`, postInput);
-      console.log('Request', response);
-      const {jwt} = response.data;
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/user/${type}`,
+        postInput,
+      );
+      console.log("Request", response);
+      const { jwt } = response.data;
       localStorage.setItem("token", jwt);
       navigate("/blogs");
     } catch (error) {}

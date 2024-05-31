@@ -7,21 +7,25 @@ import Editor from "../components/Editor";
 const Publish = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = async () => {
-    const response = await axios.post(`${BACKEND_URL}/api/v1/blog`, {
-      title,
-      content: description,
-    }, {
+    const response = await axios.post(
+      `${BACKEND_URL}/api/v1/blog`,
+      {
+        title,
+        content: description,
+      },
+      {
         headers: {
-            Authorization: localStorage.getItem("token")
-        }
-    });
+          Authorization: localStorage.getItem("token"),
+        },
+      },
+    );
     console.log(response);
-    navigate(`/blog/${response.data.data.id}`)
+    navigate(`/blog/${response.data.data.id}`);
   };
   return (
-    <div className="mx-auto max-w-screen-md mt-3 px-4">
+    <div className="mx-auto mt-3 max-w-screen-md px-4">
       <label
         htmlFor="title"
         className="mb-1 block text-sm font-medium text-gray-900"
@@ -32,7 +36,7 @@ const Publish = () => {
         type="text"
         id="title"
         aria-describedby="title-explanation"
-        className="block mb-3 w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-black focus:ring-black "
+        className="mb-3 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-black focus:ring-black "
         placeholder="Title"
         onChange={(e) => setTitle(e.target.value)}
       />
@@ -50,7 +54,7 @@ const Publish = () => {
         placeholder="Write your thoughts here..."
         onChange={(e) => setDescription(e.target.value)}
       ></textarea> */}
-      <Editor/>
+      <Editor />
       <button
         onClick={() => handleSubmit()}
         type="button"
