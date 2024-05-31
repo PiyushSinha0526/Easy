@@ -16,6 +16,9 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import BulletList from "@tiptap/extension-bullet-list";
 import MenuBar from "./Editor/MenuBar";
 import BubbleMenuBar from "./Editor/BubbleMenu";
+import FlootingMenuBar from "./Editor/FlootingMenu";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -28,6 +31,10 @@ const extensions = [
   Text,
   Underline,
   Code,
+  TaskList,
+  TaskItem.configure({
+    nested: false,
+  }),
   CodeBlockLowlight.configure({
     lowlight: createLowlight(common),
     defaultLanguage: "javascript",
@@ -47,7 +54,7 @@ const extensions = [
 const editorProps = {
   attributes: {
     class:
-      "border-2 border-gray-300 focus:border-black focus:ring-black rounded-lg p-4 min-h-[12rem] max-h-[26rem] overflow-y-auto outline-none prose max-w-none",
+      "border-2 border-gray-300 focus:border-black focus:ring-black rounded-lg p-4 min-h-[12rem] py-6 max-h-[26rem] overflow-y-auto outline-none prose max-w-none",
   },
 };
 
@@ -92,6 +99,7 @@ export default () => {
         content={content}
       >
         <BubbleMenuBar />
+        <FlootingMenuBar />
       </EditorProvider>
     </div>
   );

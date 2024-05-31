@@ -1,17 +1,10 @@
 import { useCurrentEditor } from "@tiptap/react";
-import { Level } from "@tiptap/extension-heading";
 import {
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
   RiBold,
   RiCodeBlock,
   RiFileCodeLine,
-  RiH1,
-  RiH2,
-  RiH3,
-  RiH4,
-  RiH5,
-  RiH6,
   RiItalic,
   RiListOrdered,
   RiListUnordered,
@@ -19,11 +12,12 @@ import {
   RiQuoteText,
   RiRulerLine,
   RiStrikethrough,
+  RiTaskLine,
   RiUnderline,
 } from "@remixicon/react";
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
-  const headingIcons = [RiH1, RiH2, RiH3, RiH4, RiH5, RiH6];
+
   if (!editor) {
     return null;
   }
@@ -90,28 +84,6 @@ const MenuBar = () => {
       >
         <RiParagraph size={16} />
       </button>
-      {[1, 2, 3, 4, 5, 6].map((level) => {
-        const Icon = headingIcons[level - 1];
-        return (
-          <button
-            key={level}
-            onClick={() =>
-              editor
-                .chain()
-                .focus()
-                .toggleHeading({ level: level as Level })
-                .run()
-            }
-            className={
-              editor.isActive("heading", { level: level })
-                ? "bg-black text-white"
-                : ""
-            }
-          >
-            <Icon size={16} />
-          </button>
-        );
-      })}
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive("bulletList") ? "bg-black text-white" : ""}
@@ -123,6 +95,12 @@ const MenuBar = () => {
         className={editor.isActive("orderedList") ? "bg-black text-white" : ""}
       >
         <RiListOrdered size={16} />
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleTaskList().run()}
+        className={editor.isActive("taskList") ? "bg-black text-white" : ""}
+      >
+        <RiTaskLine size={16} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
