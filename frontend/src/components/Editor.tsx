@@ -19,6 +19,7 @@ import BubbleMenuBar from "./Editor/BubbleMenu";
 import FlootingMenuBar from "./Editor/FlootingMenu";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
+import Highlight from "@tiptap/extension-highlight";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -39,6 +40,7 @@ const extensions = [
     lowlight: createLowlight(common),
     defaultLanguage: "javascript",
   }),
+  Highlight.configure({ multicolor: true }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,

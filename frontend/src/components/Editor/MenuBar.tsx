@@ -2,18 +2,14 @@ import { useCurrentEditor } from "@tiptap/react";
 import {
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
-  RiBold,
   RiCodeBlock,
   RiFileCodeLine,
-  RiItalic,
   RiListOrdered,
   RiListUnordered,
   RiParagraph,
   RiQuoteText,
   RiRulerLine,
-  RiStrikethrough,
   RiTaskLine,
-  RiUnderline,
 } from "@remixicon/react";
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -37,47 +33,7 @@ const MenuBar = () => {
         value={editor.getAttributes("textStyle").color}
         data-testid="setColor"
       />
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? " bg-black text-white" : ""}
-      >
-        <RiBold size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "bg-black text-white" : ""}
-      >
-        <RiItalic size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive("strike") ? "bg-black text-white" : ""}
-      >
-        <RiStrikethrough size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        disabled={!editor.can().chain().focus().toggleUnderline().run()}
-        className={editor.isActive("strike") ? "bg-black text-white" : ""}
-      >
-        <RiUnderline size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={editor.isActive("code") ? "bg-black text-white" : ""}
-      >
-        <RiFileCodeLine size={16} />
-      </button>
-      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
-      </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
-      </button>
+
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive("paragraph") ? "bg-black text-white" : ""}
@@ -103,6 +59,14 @@ const MenuBar = () => {
         <RiTaskLine size={16} />
       </button>
       <button
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        disabled={!editor.can().chain().focus().toggleCode().run()}
+        className={editor.isActive("code") ? "bg-black text-white" : ""}
+      >
+        <RiFileCodeLine size={16} />
+      </button>
+
+      <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive("codeBlock") ? "bg-black text-white" : ""}
       >
@@ -117,9 +81,7 @@ const MenuBar = () => {
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         <RiRulerLine size={16} />
       </button>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
-      </button>
+
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
@@ -131,6 +93,15 @@ const MenuBar = () => {
         disabled={!editor.can().chain().focus().redo().run()}
       >
         <RiArrowGoForwardLine size={16} />
+      </button>
+      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+        clear marks
+      </button>
+      <button onClick={() => editor.chain().focus().clearNodes().run()}>
+        clear nodes
+      </button>
+      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
+        hard break
       </button>
       {/* <button
           onClick={() => editor.chain().focus().setColor("#958DF1").run()}
