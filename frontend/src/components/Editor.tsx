@@ -1,25 +1,26 @@
 import "./styles.css";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle, { TextStyleOptions } from "@tiptap/extension-text-style";
-import { EditorProvider } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import StarterKit from "@tiptap/starter-kit";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { createLowlight, common } from "lowlight";
 import Code from "@tiptap/extension-code";
 import Underline from "@tiptap/extension-underline";
-
 import OrderedList from "@tiptap/extension-ordered-list";
 import BulletList from "@tiptap/extension-bullet-list";
-import MenuBar from "./Editor/MenuBar";
-import BubbleMenuBar from "./Editor/BubbleMenu";
-import FlootingMenuBar from "./Editor/FlootingMenu";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Highlight from "@tiptap/extension-highlight";
+import { createLowlight, common } from "lowlight";
+
+// components
+import MenuBar from "./Editor/MenuBar";
+import BubbleMenuBar from "./Editor/BubbleMenu";
+import FlootingMenuBar from "./Editor/FlootingMenu";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -92,17 +93,17 @@ display: none;
 `;
 
 export default () => {
+  const editor = useEditor({
+    extensions: extensions,
+    content: content,
+    editorProps: editorProps,
+  });
   return (
     <div>
-      <EditorProvider
-        slotBefore={<MenuBar />}
-        editorProps={editorProps}
-        extensions={extensions}
-        content={content}
-      >
-        <BubbleMenuBar />
-        <FlootingMenuBar />
-      </EditorProvider>
+      {editor && <MenuBar editor={editor} />}
+      <EditorContent editor={editor} />
+      {editor && <BubbleMenuBar editor={editor} />}
+      {editor && <FlootingMenuBar editor={editor} />}
     </div>
   );
 };

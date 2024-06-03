@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { BubbleMenu } from "@tiptap/react";
 import {
   RiBold,
   RiItalic,
@@ -5,14 +7,11 @@ import {
   RiStrikethrough,
   RiUnderline,
 } from "@remixicon/react";
-import { BubbleMenu, useCurrentEditor } from "@tiptap/react";
-import { useState } from "react";
 
-const BubbleMenuBar = () => {
+const BubbleMenuBar = ({ editor }: any) => {
   const [bgColor, setBgColor] = useState("#FAF594");
   const [dropdown, setDropdown] = useState(false);
-  const { editor } = useCurrentEditor();
-
+  console.log(editor);
   if (!editor) {
     return null;
   }
@@ -63,7 +62,6 @@ const BubbleMenuBar = () => {
             </button>
             <button
               className="rounded-md border border-black bg-white px-2 py-[0.1rem] font-medium text-black"
-              // Highlighted change: Updated onClick handler
               onClick={handleDefaultClick}
             >
               Default

@@ -1,4 +1,3 @@
-import { useCurrentEditor } from "@tiptap/react";
 import {
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
@@ -11,9 +10,7 @@ import {
   RiRulerLine,
   RiTaskLine,
 } from "@remixicon/react";
-const MenuBar = () => {
-  const { editor } = useCurrentEditor();
-
+const MenuBar = ({ editor }: any) => {
   if (!editor) {
     return null;
   }
@@ -103,14 +100,6 @@ const MenuBar = () => {
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
         hard break
       </button>
-      {/* <button
-          onClick={() => editor.chain().focus().setColor("#958DF1").run()}
-          className={
-            editor.isActive("textStyle", { color: "#958DF1" }) ? "text-white bg-black" : ""
-          }
-        >
-          purple
-        </button> */}
     </div>
   );
 };
