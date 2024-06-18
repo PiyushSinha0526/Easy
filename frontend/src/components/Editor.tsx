@@ -92,12 +92,15 @@ display: none;
 </blockquote>
 `;
 
-export default () => {
+export default ({ editorRef }: any) => {
   const editor = useEditor({
     extensions: extensions,
     content: content,
     editorProps: editorProps,
   });
+  if (editorRef && editor) {
+    editorRef.current = editor;
+  }
   return (
     <div>
       {editor && <MenuBar editor={editor} />}

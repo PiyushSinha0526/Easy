@@ -11,7 +11,6 @@ import {
 const BubbleMenuBar = ({ editor }: any) => {
   const [bgColor, setBgColor] = useState("#FAF594");
   const [dropdown, setDropdown] = useState(false);
-  console.log(editor);
   if (!editor) {
     return null;
   }

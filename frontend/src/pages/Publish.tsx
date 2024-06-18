@@ -1,14 +1,19 @@
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
-
+const Debugg = () =>{
+  console.log('rendering');
+  return <></>
+}
 const Publish = () => {
+  const editorRef = useRef<any>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async () => {
+    if(editorRef.current) console.log(editorRef.current.getHTML());
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/blog`,
       {
@@ -26,6 +31,7 @@ const Publish = () => {
   };
   return (
     <div className="mx-auto mt-3 max-w-screen-md px-4">
+      <Debugg/>
       <label
         htmlFor="title"
         className="mb-1 block text-sm font-medium text-gray-900"
@@ -41,20 +47,14 @@ const Publish = () => {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      {/* <label
+      <label
         htmlFor="message"
         className="mb-2 block text-sm font-medium text-gray-900 "
       >
-        Your message
+        Content
       </label>
-      <textarea
-        id="message"
-        rows={4}
-        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
-        placeholder="Write your thoughts here..."
-        onChange={(e) => setDescription(e.target.value)}
-      ></textarea> */}
-      <Editor />
+      
+      <Editor editorRef={editorRef}/>
       <button
         onClick={() => handleSubmit()}
         type="button"
