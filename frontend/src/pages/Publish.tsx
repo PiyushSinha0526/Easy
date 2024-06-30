@@ -3,22 +3,20 @@ import { BACKEND_URL } from "../config";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
-const Debugg = () =>{
-  console.log('rendering');
-  return <></>
-}
+import Sanitize from "../utils/Sanitize";
+
 const Publish = () => {
   const editorRef = useRef<any>(null);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async () => {
-    if(editorRef.current) console.log(editorRef.current.getHTML());
+    let content = Sanitize(editorRef.current.getHTML());
+    console.log(content);
     const response = await axios.post(
       `${BACKEND_URL}/api/v1/blog`,
       {
         title,
-        content: description,
+        content: content,
       },
       {
         headers: {
@@ -31,7 +29,6 @@ const Publish = () => {
   };
   return (
     <div className="mx-auto mt-3 max-w-screen-md px-4">
-      <Debugg/>
       <label
         htmlFor="title"
         className="mb-1 block text-sm font-medium text-gray-900"
@@ -53,8 +50,8 @@ const Publish = () => {
       >
         Content
       </label>
-      
-      <Editor editorRef={editorRef}/>
+
+      <Editor editorRef={editorRef} />
       <button
         onClick={() => handleSubmit()}
         type="button"
