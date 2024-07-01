@@ -15,6 +15,9 @@ export const blogRouter = new Hono<{
 }>();
 
 blogRouter.use("/*", async (c, next) => {
+  if (c.req.path === "/bulk") {
+    return next();
+  }
   const header = c.req.header("authorization") || "";
   try {
     const response = await verify(header, c.env.JWT_SECRET);
