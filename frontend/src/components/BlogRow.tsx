@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import parse from 'html-react-parser';
 
 interface BlogRowProps {
   id: string;
@@ -44,7 +45,7 @@ const BlogRow = ({
               {title}
             </h2>
             <p className="hidden text-wrap text-base text-slate-600 sm:block">
-              {content.slice(0, 100)}...
+              {parse(content.slice(0, 100))}...
             </p>
           </div>
           <div className="flex items-center py-8 text-xs sm:text-sm">

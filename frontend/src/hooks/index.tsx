@@ -29,12 +29,14 @@ const useBlog = ({ id }: { id: string }) => {
 
   return { loading, blog };
 };
-const useBlogs = () => {
+const useBlogs = (path: string) => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const endPoint = path=='/myBlogs' ? 'user-posts' : 'bulk'
+  console.log(path);
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+      .get(`${BACKEND_URL}/api/v1/blog/${endPoint}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
