@@ -57,7 +57,7 @@ const Publish = () => {
         type="button"
         className="mb-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
       >
-        Green
+        Publish
       </button>
     </div>
   );
