@@ -125,6 +125,9 @@ blogRouter.get("/user-posts", async (c) => {
       title: true,
       content: true,
       published: true,
+      author: {
+        select: { name: true },
+      },
     },
   });
   return c.json({
