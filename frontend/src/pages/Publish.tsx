@@ -2,7 +2,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Editor from "../components/Editor";
+import Editor from "../components/Editor/index";
 import Sanitize from "../utils/Sanitize";
 
 const Publish = () => {
@@ -41,6 +41,7 @@ const Publish = () => {
         aria-describedby="title-explanation"
         className="mb-3 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-black focus:ring-black "
         placeholder="Title"
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
 

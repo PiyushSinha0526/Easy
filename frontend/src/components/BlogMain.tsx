@@ -1,30 +1,52 @@
+import { EditorContent, useEditor } from "@tiptap/react";
 import { Blog } from "../hooks";
+import EditorExtensions from "../utils/Editor";
+import { useNavigate } from "react-router-dom";
 
 const BlogMain = ({ blog }: { blog: Blog }) => {
+  const navigate = useNavigate();
+  const editor = useEditor({
+    editable: false,
+    content: blog.content,
+    extensions: EditorExtensions,
+    editorProps: {
+      attributes: {
+        class: "pt-8 prose max-w-none",
+      },
+    },
+  });
   return (
-    <div className="mx-auto flex max-w-2xl flex-col">
+    <div className="mx-auto flex max-w-3xl flex-col">
       <div className="mx-4">
-        <div className="mb-8 mt-8 text-3xl font-bold sm:text-[42px]">
-          {blog.title}
-        </div>
-        <div className="flex items-center">
-          <div className="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
-            <span className="font-medium capitalize text-gray-600 dark:text-gray-300">
-              {blog.author.name ? blog.author.name[0] : "A"}
-            </span>
-          </div>
-          <div className="ml-2 text-sm font-medium capitalize">
-            <div className="text-base">
-              {blog.author.name ? blog.author.name : "Anonymous"}
+        <div className="mb-8 mt-8 flex items-center justify-between">
+          <div className=" flex items-center">
+            <div className="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
+              <span className="font-medium capitalize text-gray-600 dark:text-gray-300">
+                {blog?.author?.name ? blog?.author?.name[0] : "A"}
+              </span>
             </div>
-            <div className="text-sm text-[#6b6b6b]">
-              <span>{"8 min read"}</span> . <span>May 2, 2022</span>
+            <div className="ml-2 text-sm font-medium capitalize">
+              <div className="text-base">
+                {blog?.author.name ? blog.author.name : "Anonymous"}
+              </div>
+              <div className="text-sm text-[#6b6b6b]">
+                <span>{"8 min read"}</span> . <span>May 2, 2022</span>
+              </div>
             </div>
           </div>
+          <div
+            className="cursor-pointer rounded-md bg-blue-400 px-4 py-1 text-white"
+            onClick={() =>
+              navigate("edit")
+            }
+          >
+            Edit
+          </div>
         </div>
-        <div className="mt-8 text-wrap break-words text-lg sm:text-xl">
-          {blog.content}
+        <div className="text-3xl font-bold sm:text-[42px]">
+          {blog.title} very very long title
         </div>
+        <div>{editor && <EditorContent editor={editor} />}</div>
       </div>
     </div>
   );
