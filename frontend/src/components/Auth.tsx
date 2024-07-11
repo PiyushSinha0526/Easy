@@ -1,26 +1,25 @@
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupInput } from "@alone_npm/easy-common";
-import { BACKEND_URL } from "../config";
-import axios from "axios";
+
+import useAuthStore from "../store/AuthStore";
+import { useShallow } from "zustand/react/shallow";
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
-  const [postInput, setPostInput] = useState<SignupInput>({
+  const [authInput, setAuthInput] = useState<SignupInput>({
     email: "",
     password: "",
     name: "",
   });
   const navigate = useNavigate();
-  async function sendRequest() {
-    console.log("Request", `${BACKEND_URL}/api/v1/user/${type}`);
+  const { signup, signin } = useAuthStore(
+    useShallow((state) => ({ signup: state.signup, signin: state.signin })),
+  );
+  async function sendRequest(type: "signup" | "signin") {
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/${type}`,
-        postInput,
-      );
-      console.log("Request", response);
-      const { jwt } = response.data;
-      localStorage.setItem("token", jwt);
+      if (type == "signin") {
+        signin(authInput);
+      } else signup(authInput);
       navigate("/");
     } catch (error) {}
   }
@@ -52,7 +51,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
               label="name"
               placeholder="your name ..."
               onChange={(e) => {
-                setPostInput((prev) => ({ ...prev, name: e.target.value }));
+                setAuthInput((prev) => ({ ...prev, name: e.target.value }));
               }}
             />
           ) : null}
@@ -61,7 +60,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             label="email"
             placeholder="email ..."
             onChange={(e) => {
-              setPostInput((prev) => ({ ...prev, email: e.target.value }));
+              setAuthInput((prev) => ({ ...prev, email: e.target.value }));
             }}
           />
           <LabelledInput
@@ -69,12 +68,12 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             label="password"
             placeholder="password ..."
             onChange={(e) => {
-              setPostInput((prev) => ({ ...prev, password: e.target.value }));
+              setAuthInput((prev) => ({ ...prev, password: e.target.value }));
             }}
           />
           <button
             type="button"
-            onClick={sendRequest}
+            onClick={() => sendRequest(type == "signin" ? "signin" : "signup")}
             className="mb-2 me-2 mt-5 w-full rounded-lg bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
           >
             {type == "signin" ? "Sign In" : "Sign Up"}

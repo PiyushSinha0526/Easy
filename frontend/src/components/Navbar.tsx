@@ -2,8 +2,10 @@ import { Link, Outlet } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useState } from "react";
 import { RiLoginCircleLine, RiLogoutCircleLine } from "@remixicon/react";
+import useAuthStore from "../store/AuthStore";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const signout = useAuthStore(state=> state.signout)
   return (
     <>
       <div className="flex items-center justify-between border-b-2 px-8">
@@ -12,11 +14,11 @@ function Navbar() {
         </Link>
         <div className="flex gap-4">
           <ul className="flex items-center gap-2">
-            {/* <li>
-              <Link to={"/blogs"} className="">
+            <li>
+              <Link to={"/"} className="">
                 Blogs
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link
                 to={"/publish"}
@@ -31,13 +33,21 @@ function Navbar() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen && (
-                <div className="absolute right-0 top-[3.3rem] flex w-24 flex-col items-start gap-1 rounded-md bg-white p-1 shadow-md shadow-black ring-1 ring-black *:w-full *:font-semibold">
+                <div className="absolute right-0 top-[3.3rem] flex w-28 flex-col items-start gap-1 rounded-md bg-white p-1 shadow-md shadow-black ring-1 ring-black *:w-full *:font-semibold">
                   <Link
                     to={"/myBlogs"}
                     className="rounded-md px-2 py-1 hover:bg-black hover:text-white"
                   >
                     My Blogs
                   </Link>
+                  <Link
+                      onClick={() => signout()}
+                      to={"/signin"}
+                      className="flex items-center gap-1 rounded-md px-2 py-1 hover:bg-black hover:text-white"
+                    >
+                      Signout <RiLogoutCircleLine size={18} />
+                  
+                    </Link>
                   {true ? (
                     <Link
                       to={"/signin"}

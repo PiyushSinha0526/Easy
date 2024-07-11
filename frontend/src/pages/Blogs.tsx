@@ -6,7 +6,6 @@ const Blogs = () => {
   const url = useLocation();
   const { loading, blogs } = useBlogs(url.pathname);
   if (loading) return <div>Loading...</div>;
-
   if (blogs.length === 0)
     return (
       <div className="mx-auto flex h-screen max-w-screen-xl flex-col items-center justify-center gap-2">
