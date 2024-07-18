@@ -2,16 +2,16 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
-import { createBlogIbput, updateBlogIbput } from "@alone_npm/easy-common"
+import { createBlogIbput, updateBlogIbput } from "@alone_npm/easy-common";
 
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
-  },
+  };
   Variables: {
-    userId: string,
-  }
+    userId: string;
+  };
 }>();
 
 blogRouter.use("/*", async (c, next) => {
@@ -32,9 +32,9 @@ blogRouter.use("/*", async (c, next) => {
     }
   } catch (error) {
     c.status(403);
-      return c.json({
-        error: "you are not logged in",
-      });
+    return c.json({
+      error: "you are not logged in",
+    });
   }
 });
 
@@ -43,14 +43,20 @@ blogRouter.post("/", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
-  const {success} = createBlogIbput.safeParse(body)
-  if(!success){
+  const { success } = createBlogIbput.safeParse(body);
+  if (!success) {
     c.status(411);
     return c.json({
-      message: "Inputs not correct"
-    })
+      message: "Inputs not correct",
+    });
   }
   const userId = c.get("userId");
+  if (!userId) {
+    c.status(401);
+    return c.json({
+      message: "Unauthorized: No user ID found",
+    });
+  }
   const blog = await prisma.post.create({
     data: {
       title: body.title,
@@ -64,17 +70,62 @@ blogRouter.post("/", async (c) => {
   });
 });
 
+blogRouter.patch("/:id/edit", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const id = c.req.param("id");
+  const body = await c.req.json();
+  const { success } = createBlogIbput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      message: "Inputs not correct",
+    });
+  }
+  const userId = c.get("userId");
+  if (!userId) {
+    c.status(401);
+    return c.json({
+      message: "Unauthorized: No user ID found",
+    });
+  }
+  const post = await prisma.post.findUnique({
+    where: { id: Number(id) },
+  });
+  if (!post) {
+    c.status(404);
+    return c.json({ message: "Post not found." });
+  }
+  if (post.authorId !== userId) {
+    c.status(403);
+    return c.json({
+      message: "Forbidden: You do not have permission to edit this post.",
+    });
+  }
+  const blog = await prisma.post.update({
+    where: { id: Number(id) },
+    data: {
+      title: body.title,
+      content: body.content,
+    },
+  });
+  return c.json({
+    data: blog,
+  });
+});
+
 blogRouter.put("/", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
-  const {success} = updateBlogIbput.safeParse(body)
-  if(!success){
+  const { success } = updateBlogIbput.safeParse(body);
+  if (!success) {
     c.status(411);
     return c.json({
-      message: "Inputs not correct"
-    })
+      message: "Inputs not correct",
+    });
   }
   const blog = await prisma.post.update({
     where: {
@@ -115,7 +166,12 @@ blogRouter.get("/user-posts", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const userId = c.get("userId");
-  console.log(userId);
+  if (!userId) {
+    c.status(401);
+    return c.json({
+      message: "Unauthorized: No user ID found",
+    });
+  }
   const blog = await prisma.post.findMany({
     where: {
       authorId: userId,
@@ -152,7 +208,7 @@ blogRouter.get("/:id", async (c) => {
         author: {
           select: { name: true, id: true },
         },
-      }
+      },
     });
     return c.json({
       data: blog,
