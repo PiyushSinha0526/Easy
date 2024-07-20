@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config";
 type User = {
   email: string;
   name: string;
+  id: string;
 };
 
 type AuthState = {
@@ -24,8 +25,8 @@ const handleAuth = async (
 ) => {
   try {
     const response = await axios.post(url, data);
-    const { email, name, jwt } = response.data;
-    set({ user: { email, name }, token: jwt, isAuthenticated: true });
+    const { email, name, id, jwt } = response.data;
+    set({ user: { email, name, id }, token: jwt, isAuthenticated: true });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error(
