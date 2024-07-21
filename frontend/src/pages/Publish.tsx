@@ -4,16 +4,17 @@ import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Editor from "../components/Editor/index";
 import Sanitize from "../utils/Sanitize";
-import authStorage from "../utils/localStorage";
+import useAuthStore from "../store/AuthStore";
 
 const Publish = () => {
   const editorRef = useRef<any>(null);
   const [title, setTitle] = useState("");
+  const token = useAuthStore((state) => state.token);
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const handleSubmit = async () => {
     let content = Sanitize(editorRef.current.getHTML());
-    if (authStorage != "{}") {
+    if (token != null) {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/blog`,
         {
@@ -22,7 +23,7 @@ const Publish = () => {
         },
         {
           headers: {
-            Authorization: authStorage.state.token,
+            Authorization: token,
           },
         },
       );
@@ -60,7 +61,7 @@ const Publish = () => {
         type="button"
         className="my-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
       >
-        {currentLocation.pathname.includes("edit")? "Update" : "Publish"}
+        {currentLocation.pathname.includes("edit") ? "Update" : "Publish"}
       </button>
     </div>
   );

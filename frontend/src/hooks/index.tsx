@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
-import authStorage from "../utils/localStorage";
+import useAuthStore from "../store/AuthStore";
 
 export interface Blog {
   id: string;
@@ -16,12 +16,13 @@ export interface Blog {
 const useBlog = ({ id }: { id: string }) => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState<Blog>();
+  const token = useAuthStore((state) => state.token);
   useEffect(() => {
-    if (authStorage != "{}") {
+    if (token != null) {
       axios
         .get(`${BACKEND_URL}/api/v1/blog/${id}`, {
           headers: {
-            Authorization: authStorage.state.token,
+            Authorization: token,
           },
         })
         .then((response) => {
@@ -36,21 +37,32 @@ const useBlog = ({ id }: { id: string }) => {
 const useBlogs = (path: string) => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const token = useAuthStore((state) => state.token);
+
   useEffect(() => {
-    if (authStorage != "{}") {
-      const endPoint = path == "/myBlogs" ? "user-posts" : "bulk";
-      axios
-        .get(`${BACKEND_URL}/api/v1/blog/${endPoint}`, {
-          headers: {
-            Authorization: authStorage.state.token,
+    const fetchBlogs = async () => {
+      const endPoint = path === "/myBlogs" ? "user-posts" : "bulk";
+      if (endPoint === "user-posts" && !token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/api/v1/blog/${endPoint}`,
+          {
+            headers: endPoint === "user-posts" ? { Authorization: token } : {},
           },
-        })
-        .then((response) => {
-          setBlogs(response.data.data);
-          setLoading(false);
-        });
-    }
-  }, [path]);
+        );
+        setBlogs(response.data.data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, [path, token]);
 
   return { loading, blogs };
 };

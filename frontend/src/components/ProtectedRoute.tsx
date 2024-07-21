@@ -1,16 +1,15 @@
 import { useEffect } from "react";
-import { isAuthenticated } from "../utils/auth";
 import { Outlet, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/AuthStore";
 
 export default function ProtectedRoute() {
-  const isAuth = isAuthenticated();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(isAuth);
-    if (isAuth === false) {
+    if (isAuthenticated === false) {
       navigate("/signin", { replace: true });
     }
-  }, [isAuth]);
+  }, [isAuthenticated]);
 
-  return <Outlet/>;
+  return <Outlet />;
 }

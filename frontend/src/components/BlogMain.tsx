@@ -2,14 +2,21 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Blog } from "../hooks";
 import EditorExtensions from "../utils/Editor";
 import { useNavigate } from "react-router-dom";
-import authStorage from "../utils/localStorage";
 import { useEffect, useState } from "react";
+import useAuthStore from "../store/AuthStore";
+import { useShallow } from "zustand/react/shallow";
 
 const BlogMain = ({ blog }: { blog: Blog }) => {
   const [isEditAllowed, setIsEditAllowed] = useState(false);
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+      isAuthenticated: state.isAuthenticated,
+    })),
+  );
   useEffect(() => {
-    setIsEditAllowed(authStorage.state.user.id == blog.author.id);
+    if (user) setIsEditAllowed(user.id == blog.author.id);
   }, [blog]);
   const editor = useEditor({
     editable: false,
@@ -40,18 +47,16 @@ const BlogMain = ({ blog }: { blog: Blog }) => {
               </div>
             </div>
           </div>
-          {authStorage.state.isAuthenticated && isEditAllowed && <div
-            className="cursor-pointer rounded-md bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 px-4 py-1 text-white"
-            onClick={() =>
-              navigate("edit")
-            }
-          >
-            Edit
-          </div>}
+          {isAuthenticated && isEditAllowed && (
+            <div
+              className="cursor-pointer rounded-md bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 px-4 py-1 text-white"
+              onClick={() => navigate("edit")}
+            >
+              Edit
+            </div>
+          )}
         </div>
-        <div className="text-3xl font-bold sm:text-[42px]">
-          {blog.title}
-        </div>
+        <div className="text-3xl font-bold sm:text-[42px]">{blog.title}</div>
         <div>{editor && <EditorContent editor={editor} />}</div>
       </div>
     </div>
