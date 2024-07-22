@@ -57,11 +57,18 @@ blogRouter.post("/", async (c) => {
       message: "Unauthorized: No user ID found",
     });
   }
+  const { title, content, published } = body;
+  if (!title.trim() || !content.trim() || !published.trim()) {
+    c.status(411);
+    return c.json({
+      message: "Title, content, and published date must not be empty",
+    });
+  }
   const blog = await prisma.post.create({
     data: {
-      title: body.title,
-      content: body.content,
-      published: body.published,
+      title,
+      content,
+      published,
       authorId: userId,
     },
   });
@@ -103,11 +110,18 @@ blogRouter.patch("/:id/edit", async (c) => {
       message: "Forbidden: You do not have permission to edit this post.",
     });
   }
+  const { title, content } = body;
+  if (!title.trim() || !content.trim()) {
+    c.status(411);
+    return c.json({
+      message: "Title, content, and published date must not be empty",
+    });
+  }
   const blog = await prisma.post.update({
     where: { id: Number(id) },
     data: {
-      title: body.title,
-      content: body.content,
+      title,
+      content,
     },
   });
   return c.json({
