@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Editor from "../components/Editor/index";
 import Sanitize from "../utils/Sanitize";
 import useAuthStore from "../store/AuthStore";
@@ -12,22 +12,27 @@ const Publish = () => {
   const token = useAuthStore((state) => state.token);
   const navigate = useNavigate();
   const currentLocation = useLocation();
+  const { id } = useParams();
   const handleSubmit = async () => {
     let content = Sanitize(editorRef.current.getHTML());
+    const isEditMode = currentLocation.pathname.includes("edit");
+    const config = isEditMode
+      ? `${BACKEND_URL}/api/v1/blog/${id}/edit`
+      : `${BACKEND_URL}/api/v1/blog`;
+    const method = isEditMode ? "patch" : "post";
+
     if (token != null) {
-      const response = await axios.post(
-        `${BACKEND_URL}/api/v1/blog`,
-        {
+      const response = await axios({
+        method: method,
+        url: config,
+        data: {
           title,
           content: content,
         },
-        {
-          headers: {
-            Authorization: token,
-          },
+        headers: {
+          Authorization: token,
         },
-      );
-      console.log(response);
+      });
       navigate(`/blog/${response.data.data.id}`);
     }
   };
