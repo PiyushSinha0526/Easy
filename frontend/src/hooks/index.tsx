@@ -11,6 +11,7 @@ export interface Blog {
     name: string;
     id: string;
   };
+  published: string;
 }
 
 const useBlog = ({ id }: { id: string }) => {

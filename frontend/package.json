@@ -29,6 +29,7 @@
     "@tiptap/starter-kit": "^2.4.0",
     "@types/axios": "^0.14.0",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.12",
     "dompurify": "^3.1.5",
     "html-react-parser": "^5.1.10",
     "lowlight": "^3.1.0",

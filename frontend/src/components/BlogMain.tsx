@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuthStore from "../store/AuthStore";
 import { useShallow } from "zustand/react/shallow";
+import formatDateTime from "../utils/DateTime";
 
 const BlogMain = ({ blog }: { blog: Blog }) => {
   const [isEditAllowed, setIsEditAllowed] = useState(false);
@@ -28,6 +29,11 @@ const BlogMain = ({ blog }: { blog: Blog }) => {
       },
     },
   });
+  let date, time;
+
+  if (blog.published) {
+    ({ date, time } = formatDateTime(blog.published));
+  }
   return (
     <div className="mx-auto flex max-w-3xl flex-col">
       <div className="mx-4">
@@ -43,7 +49,13 @@ const BlogMain = ({ blog }: { blog: Blog }) => {
                 {blog?.author.name ? blog.author.name : "Anonymous"}
               </div>
               <div className="text-sm text-[#6b6b6b]">
-                <span>{"8 min read"}</span> . <span>May 2, 2022</span>
+                <span>{"8 min read"}</span> .{" "}
+                {blog.published && (
+                  <>
+                    <span className="ml-2">{date}</span>
+                    <span className="ml-2">{time}</span>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
+import formatDateTime from "../utils/DateTime";
 
 interface BlogRowProps {
   id: string;
@@ -15,6 +16,11 @@ const BlogRow = ({
   content,
   published,
 }: BlogRowProps) => {
+  let date, time;
+
+  if (published) {
+    ({ date, time } = formatDateTime(published));
+  }
   return (
     <Link
       to={`/blog/${id}`}
@@ -35,7 +41,10 @@ const BlogRow = ({
           <div className="flex items-center">
             <span className="h-1 w-1 rounded-full bg-black"></span>
           </div>
-          <span className="ml-2">{published}</span>
+          {published && <>
+            <span className="ml-2">{date}</span>
+            <span className="ml-2">{time}</span>
+          </>}
         </div>
       </div>
       <div className="flex justify-between">
