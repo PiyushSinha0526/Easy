@@ -14,12 +14,14 @@ export const createBlogIbput = z.object({
   title: z.string(),
   content: z.string(),
   published: z.date().optional(),
+  readTime: z.string().optional(),
 });
 
 export const updateBlogIbput = z.object({
   title: z.string(),
   content: z.string(),
   id: z.number(),
+  readTime: z.string().optional(),
 });
 
 // type inference in zod
