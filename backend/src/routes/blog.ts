@@ -57,18 +57,18 @@ blogRouter.post("/", async (c) => {
       message: "Unauthorized: No user ID found",
     });
   }
-  const { title, content, published } = body;
-  if (!title.trim() || !content.trim() || !published.trim()) {
+  const { title, content, readTime } = body;
+  if (!title.trim() || !content.trim()) {
     c.status(411);
     return c.json({
-      message: "Title, content, and published date must not be empty",
+      message: "Title or content, must not be empty",
     });
   }
   const blog = await prisma.post.create({
     data: {
       title,
       content,
-      published,
+      readTime,
       authorId: userId,
     },
   });
@@ -83,7 +83,7 @@ blogRouter.patch("/:id/edit", async (c) => {
   }).$extends(withAccelerate());
   const id = c.req.param("id");
   const body = await c.req.json();
-  const { success } = createBlogIbput.safeParse(body);
+  const { success } = updateBlogIbput.safeParse({...body, id: Number(id)});
   if (!success) {
     c.status(411);
     return c.json({
@@ -110,11 +110,11 @@ blogRouter.patch("/:id/edit", async (c) => {
       message: "Forbidden: You do not have permission to edit this post.",
     });
   }
-  const { title, content } = body;
+  const { title, content, readTime } = body;
   if (!title.trim() || !content.trim()) {
     c.status(411);
     return c.json({
-      message: "Title, content, and published date must not be empty",
+      message: "Title or content must not be empty",
     });
   }
   const blog = await prisma.post.update({
@@ -122,6 +122,7 @@ blogRouter.patch("/:id/edit", async (c) => {
     data: {
       title,
       content,
+      readTime,
     },
   });
   return c.json({
@@ -129,31 +130,32 @@ blogRouter.patch("/:id/edit", async (c) => {
   });
 });
 
-blogRouter.put("/", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-  const body = await c.req.json();
-  const { success } = updateBlogIbput.safeParse(body);
-  if (!success) {
-    c.status(411);
-    return c.json({
-      message: "Inputs not correct",
-    });
-  }
-  const blog = await prisma.post.update({
-    where: {
-      id: body.id,
-    },
-    data: {
-      title: body.title,
-      content: body.content,
-    },
-  });
-  return c.json({
-    data: blog,
-  });
-});
+// blogRouter.put("/", async (c) => {
+//   const prisma = new PrismaClient({
+//     datasourceUrl: c.env.DATABASE_URL,
+//   }).$extends(withAccelerate());
+//   const body = await c.req.json();
+//   const { success } = updateBlogIbput.safeParse(body);
+//   if (!success) {
+//     c.status(411);
+//     return c.json({
+//       message: "Inputs not correct",
+//     });
+//   }
+//   const blog = await prisma.post.update({
+//     where: {
+//       id: body.id,
+//     },
+//     data: {
+//       title: body.title,
+//       content: body.content,
+//       readTime: body.readTime,
+//     },
+//   });
+//   return c.json({
+//     data: blog,
+//   });
+// });
 
 blogRouter.get("/bulk", async (c) => {
   const prisma = new PrismaClient({
@@ -164,6 +166,7 @@ blogRouter.get("/bulk", async (c) => {
       content: true,
       title: true,
       published: true,
+      readTime: true,
       id: true,
       author: {
         select: { name: true, id: true },
@@ -195,6 +198,7 @@ blogRouter.get("/user-posts", async (c) => {
       title: true,
       content: true,
       published: true,
+      readTime: true,
       author: {
         select: { name: true, id: true },
       },
@@ -220,6 +224,7 @@ blogRouter.get("/:id", async (c) => {
         title: true,
         id: true,
         published: true,
+        readTime: true,
         author: {
           select: { name: true, id: true },
         },
