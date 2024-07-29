@@ -4,8 +4,9 @@ import Signin from "./pages/Signin";
 import Blog from "./pages/Blog";
 import Blogs from "./pages/Blogs";
 import Navbar from "./components/Navbar";
-import Publish from "./pages/Publish";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Edit from "./pages/Edit";
+import Write from "./pages/Write";
 
 function App() {
   return (
@@ -20,8 +21,8 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/myBlogs" element={<Blogs />} />
                 <Route path="blog/:id" element={<Blog />} />
-                <Route path="/publish" element={<Publish />} />
-                <Route path="/blog/:id/edit" element={<Publish />} />
+                <Route path="/write" element={<Write />} />
+                <Route path="/blog/:id/edit" element={<Edit />} />
               </Route>
             </Route>
           </Routes>

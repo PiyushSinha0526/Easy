@@ -10,7 +10,7 @@ const Blogs = () => {
     return (
       <div className="mx-auto flex h-screen max-w-screen-xl flex-col items-center justify-center gap-2">
         <div className="text-3xl font-semibold">No blogs found.</div>
-        <Link to={"/publish"} className="underline">
+        <Link to={"/write"} className="underline">
           Create Blog
         </Link>
       </div>

@@ -28,7 +28,7 @@ function Navbar() {
             <li>
               {isAuthenticated && (
                 <Link
-                  to={"/publish"}
+                  to={"/write"}
                   type="button"
                   className="mb-2 me-2 rounded-md bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-br"
                 >

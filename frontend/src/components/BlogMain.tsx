@@ -49,7 +49,7 @@ const BlogMain = ({ blog }: { blog: Blog }) => {
                 {blog?.author.name ? blog.author.name : "Anonymous"}
               </div>
               <div className="text-sm text-[#6b6b6b]">
-                <span>{"8 min read"}</span> .{" "}
+                <span className="lowercase">{blog.readTime} min(s)</span> .{" "}
                 {blog.published && (
                   <>
                     <span className="ml-2">{date}</span>
