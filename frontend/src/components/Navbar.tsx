@@ -6,8 +6,9 @@ import useAuthStore from "../store/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { signout, isAuthenticated } = useAuthStore(
+  const { user, signout, isAuthenticated } = useAuthStore(
     useShallow((state) => ({
+      user: state.user,
       signout: state.signout,
       isAuthenticated: state.isAuthenticated,
     })),
@@ -39,7 +40,8 @@ function Navbar() {
             <li
               className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gray-500"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
+            ><>
+              <span className="font-bold text-white">{user?.name[0].toUpperCase() || user?.email[0].toUpperCase()}</span>
               {isMenuOpen && (
                 <div className="absolute right-0 top-[3.3rem] flex w-28 flex-col items-start gap-1 rounded-md bg-white p-1 shadow-md shadow-black ring-1 ring-black *:w-full *:font-semibold">
                   {isAuthenticated && (
@@ -77,6 +79,7 @@ function Navbar() {
                   )}
                 </div>
               )}
+            </>
             </li>
           </ul>
         </div>

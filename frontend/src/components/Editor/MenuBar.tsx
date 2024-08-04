@@ -1,8 +1,13 @@
 import {
+  RiAlignCenter,
+  RiAlignJustify,
+  RiAlignLeft,
+  RiAlignRight,
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
   RiCodeBlock,
   RiFileCodeLine,
+  RiImageFill,
   RiListOrdered,
   RiListUnordered,
   RiParagraph,
@@ -10,13 +15,51 @@ import {
   RiRulerLine,
   RiTaskLine,
 } from "@remixicon/react";
+import { useState } from "react";
 const MenuBar = ({ editor }: any) => {
   if (!editor) {
     return null;
   }
+  const handleTextAlignToggle = (textAlign: string) => {
+    if (editor.isActive({ textAlign: textAlign })) {
+      editor.chain().focus().unsetTextAlign().run();
+    } else {
+      editor.chain().focus().setTextAlign(textAlign).run();
+    }
+  };
+  const insertImages = (urls: any) => {
+    if (urls.length > 0 && urls.length <= 3) {
+      editor.commands.insertImageGroup({urls: urls});
+    } else {
+      console.error('You can insert up to 3 images only.');
+    }
+  }
+  const [imageUrls, setImageUrls] = useState(['', '', '']);
 
+  const handleChange = (index: number, event: any) => {
+    const newUrls = [...imageUrls];
+    newUrls[index] = event.target.value;
+    setImageUrls(newUrls);
+  }
+
+  const handleInsert = () => {
+    const validUrls = imageUrls.filter((url: any) => url);
+    insertImages(validUrls);
+  }
   return (
-    <div className="mb-1 flex flex-wrap gap-2 p-2 text-black outline outline-gray-200 *:cursor-pointer *:rounded-md  *:border *:border-black *:px-2">
+    <div className="mx-0.5 mb-2 flex flex-wrap gap-2 rounded-lg p-2 text-black outline  outline-gray-200 *:cursor-pointer *:rounded-md *:border *:border-black *:px-2 *:shadow-sm *:shadow-gray-950">
+      <div>
+      {imageUrls.map((url, index) => (
+        <input
+          key={index}
+          type="text"
+          placeholder={`Image URL ${index + 1}`}
+          value={url}
+          onChange={(event: any) => handleChange(index, event)}
+        />
+      ))}
+      <button onClick={handleInsert}>Insert Images</button>
+    </div>
       <input
         type="color"
         className="bg-white"
@@ -78,7 +121,41 @@ const MenuBar = ({ editor }: any) => {
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         <RiRulerLine size={16} />
       </button>
-
+      <button
+        onClick={() => handleTextAlignToggle("left")}
+        className={
+          editor.isActive({ textAlign: "left" }) ? "bg-black text-white" : ""
+        }
+      >
+        <RiAlignLeft size={16} />
+      </button>
+      <button
+        onClick={() => handleTextAlignToggle("center")}
+        className={
+          editor.isActive({ textAlign: "center" }) ? "bg-black text-white" : ""
+        }
+      >
+        <RiAlignCenter size={16} />
+      </button>
+      <button
+        onClick={() => handleTextAlignToggle("right")}
+        className={
+          editor.isActive({ textAlign: "right" }) ? "bg-black text-white" : ""
+        }
+      >
+        <RiAlignRight size={16} />
+      </button>
+      <button
+        onClick={() => handleTextAlignToggle("justify")}
+        className={
+          editor.isActive({ textAlign: "justify" }) ? "bg-black text-white" : ""
+        }
+      >
+        <RiAlignJustify size={16} />
+      </button>
+      <button >
+        <RiImageFill/>
+      </button>
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
