@@ -17,6 +17,8 @@ import { createLowlight, common } from "lowlight";
 import CharacterCount from "@tiptap/extension-character-count";
 import TextAlign from "@tiptap/extension-text-align";
 import Image from "@tiptap/extension-image";
+import ImageWithAlignment from "../components/Editor/image";
+import CustomImage from "../components/Editor/image";
 
 const EditorExtensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -37,7 +39,7 @@ const EditorExtensions = [
   TextAlign.configure({
     types: ["heading", "paragraph"],
   }),
-  Image,
+  CustomImage,
   CodeBlockLowlight.configure({
     lowlight: createLowlight(common),
     defaultLanguage: "javascript",

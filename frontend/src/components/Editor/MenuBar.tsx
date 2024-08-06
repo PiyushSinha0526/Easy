@@ -15,7 +15,10 @@ import {
   RiRulerLine,
   RiTaskLine,
 } from "@remixicon/react";
+import { useState } from "react";
 const MenuBar = ({ editor }: any) => {
+  const [dropdown, setDropdown] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   if (!editor) {
     return null;
   }
@@ -27,6 +30,21 @@ const MenuBar = ({ editor }: any) => {
     }
   };
 
+  const handleApplyClick = () => {
+    editor
+    .chain()
+    .focus()
+    .insertContent({
+      type: 'image',
+      attrs: {
+        src: imageUrl,
+        align: 'right',
+      },
+    })
+    .run();
+    setDropdown(false);
+  };
+  
   return (
     <div className="mx-0.5 mb-2 flex flex-wrap gap-2 rounded-lg p-2 text-black outline  outline-gray-200 *:cursor-pointer *:rounded-md *:border *:border-black *:px-2 *:shadow-sm *:shadow-gray-950">
       <input
@@ -122,9 +140,28 @@ const MenuBar = ({ editor }: any) => {
       >
         <RiAlignJustify size={16} />
       </button>
-      <button>
+      <div onClick={() => setDropdown(!dropdown)} className="relative">
         <RiImageFill />
-      </button>
+        {dropdown && (
+          <div
+            className="absolute -top-[3.25rem] left-2 z-20 flex items-center justify-center gap-2 rounded-md border border-black bg-white p-2 py-1 shadow-md shadow-black "
+            onClick={(e) => e.stopPropagation()}
+          >
+            <input
+              type="text"
+              className="border"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+            <button
+              onClick={() => handleApplyClick()}
+              className="rounded-md border border-black bg-white px-2 py-[0.1rem] font-medium text-black"
+            >
+              Apply
+            </button>
+          </div>
+        )}
+      </div>
       <button
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
