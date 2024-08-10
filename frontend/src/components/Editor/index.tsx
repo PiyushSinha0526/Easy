@@ -1,9 +1,9 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 // components
-import MenuBar from "./MenuBar";
-import BubbleMenuBar from "./BubbleMenu";
-import FlootingMenuBar from "./FlootingMenu";
-import EditorExtensions from "../../utils/Editor";
+import MenuBar from "./Menu/MenuBar";
+import BubbleMenuBar from "./Menu/BubbleMenu";
+import FlootingMenuBar from "./Menu/FlootingMenu";
+import EditorExtensions from "./EditorExtensions";
 
 export const editorProps = {
   attributes: {

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BubbleMenu, Editor } from "@tiptap/react";
 import {
   RiAlignCenter,
-  RiAlignJustify,
   RiAlignLeft,
   RiAlignRight,
   RiBold,
@@ -198,12 +197,6 @@ const BubbleMenuBar = ({ editor }: any) => {
             className={imageAlign === "right" ? "bg-black text-white" : ""}
           >
             <RiAlignRight size={16} />
-          </button>
-          <button
-            onClick={() => handleImageAlignToggle("justify")}
-            className={imageAlign === "justify" ? "bg-black text-white" : ""}
-          >
-            <RiAlignJustify size={16} />
           </button>
         </>
       )}

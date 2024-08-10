@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   RiAlignCenter,
   RiAlignJustify,
@@ -15,7 +16,6 @@ import {
   RiRulerLine,
   RiTaskLine,
 } from "@remixicon/react";
-import { useState } from "react";
 const MenuBar = ({ editor }: any) => {
   const [dropdown, setDropdown] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
