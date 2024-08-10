@@ -1,13 +1,13 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Blog } from "../hooks";
-import EditorExtensions from "../utils/Editor";
+import EditorExtensions from "./Editor/EditorExtensions";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuthStore from "../store/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 import formatDateTime from "../utils/DateTime";
 
-const BlogMain = ({ blog }: { blog: Blog }) => {
+const BlogContent = ({ blog }: { blog: Blog }) => {
   const [isEditAllowed, setIsEditAllowed] = useState(false);
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore(
@@ -75,4 +75,4 @@ const BlogMain = ({ blog }: { blog: Blog }) => {
   );
 };
 
-export default BlogMain;
+export default BlogContent;

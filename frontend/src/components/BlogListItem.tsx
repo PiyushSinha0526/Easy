@@ -1,26 +1,28 @@
 import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import formatDateTime from "../utils/DateTime";
+import getFirstImageSrc from "../utils/imgSrc";
 
-interface BlogRowProps {
+interface BlogListItemProps {
   id: string;
   authorName: string;
   title: string;
   content: string;
   published: string;
 }
-const BlogRow = ({
+const BlogListItem = ({
   id,
   authorName,
   title,
   content,
   published,
-}: BlogRowProps) => {
+}: BlogListItemProps) => {
   let date, time;
 
   if (published) {
     ({ date, time } = formatDateTime(published));
   }
+  const imgSrc = getFirstImageSrc(content);
   return (
     <Link
       to={`/blog/${id}`}
@@ -60,7 +62,7 @@ const BlogRow = ({
             </p>
           </div>
           <div className="flex items-center py-8 text-xs sm:text-sm">
-            <ul className="flex gap-2 pr-4">
+            {/* <ul className="flex gap-2 pr-4">
               {Array.from({ length: 3 }).map((_, i) => (
                 <li
                   key={i}
@@ -69,16 +71,16 @@ const BlogRow = ({
                   tag{i + 1}
                 </li>
               ))}
-            </ul>
+            </ul> */}
             <span>{"9"} min read</span>
           </div>
         </div>
-        <div className="w-24 sm:w-32">
-          <img src="https://picsum.photos/200" alt="thumbnail" />
-        </div>
+        {imgSrc && <div className="hidden sm:block sm:w-36">
+          <img src={imgSrc} alt={`${title} thumbnail`} />
+        </div>}
       </div>
     </Link>
   );
 };
 
-export default BlogRow;
+export default BlogListItem;

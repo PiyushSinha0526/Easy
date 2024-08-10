@@ -25,17 +25,13 @@ function BlogForm({
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(editorRef.current.getHTML())
     let content = Sanitize(editorRef.current.getHTML());
-    console.log(content)
     const timeToRead = Math.ceil(
       editorRef.current.storage.characterCount.words() / 210,
     );
 
     // console.log(timeToRead);
     // console.log(content.replace(/\s+/g, "") === "<p></p>");
-    // const config = `${BACKEND_URL}/api/v1/blog`;
-    // const method = "post";
 
     if (token != null) {
       const response = await axios({
