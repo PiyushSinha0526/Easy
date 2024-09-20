@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { BubbleMenu, Editor } from "@tiptap/react";
 import {
-  RiAlignCenter,
-  RiAlignLeft,
-  RiAlignRight,
-  RiBold,
-  RiItalic,
-  RiPenNibFill,
-  RiStrikethrough,
-  RiUnderline,
-} from "@remixicon/react";
+  AlignCenterIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  BoldIcon,
+  HighlighterIcon,
+  ItalicIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
+} from "lucide-react";
 
-// Check if the current selection is an image node
 const isSelectedImage = (editor: Editor): boolean => {
   const { state } = editor;
   const { selection } = state;
@@ -66,7 +65,7 @@ const BubbleMenuBar = ({ editor }: any) => {
       editor
         .chain()
         .focus()
-        .updateAttributes("image", { align: alignment }) // Update alignment attribute
+        .updateAttributes("image", { align: alignment })
         .run();
     }
   };
@@ -75,14 +74,15 @@ const BubbleMenuBar = ({ editor }: any) => {
     <BubbleMenu
       editor={editor}
       tippyOptions={{ duration: 100 }}
-      className="flex w-fit cursor-pointer gap-1 rounded-lg border border-black bg-white p-1 px-2 py-1 text-black outline outline-2 outline-black *:rounded-md *:border *:border-black *:px-1"
+      className="flex w-fit cursor-pointer gap-1 rounded-lg border border-black bg-white p-1 px-2 py-1 text-black outline outline-2 outline-black *:rounded-md *:border *:border-black *:px-2"
     >
       {!isImageSelected ? (
         <>
           <div onClick={() => setDropdown(!dropdown)} className="relative">
-            <RiPenNibFill
+            <HighlighterIcon
               color={editor.getAttributes("highlight").color || bgColor}
               size={16}
+              height={27}
               className="h-full w-full"
             />
             {dropdown && (
@@ -137,21 +137,21 @@ const BubbleMenuBar = ({ editor }: any) => {
             disabled={!editor.can().chain().focus().toggleBold().run()}
             className={editor.isActive("bold") ? "bg-black text-white" : ""}
           >
-            <RiBold size={16} />
+            <BoldIcon size={16} height={27} />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
             className={editor.isActive("italic") ? "bg-black text-white" : ""}
           >
-            <RiItalic size={16} />
+            <ItalicIcon size={16} height={27} />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
             className={editor.isActive("strike") ? "bg-black text-white" : ""}
           >
-            <RiStrikethrough size={16} />
+            <StrikethroughIcon size={16} height={27} />
           </button>
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -160,7 +160,7 @@ const BubbleMenuBar = ({ editor }: any) => {
               editor.isActive("underline") ? "bg-black text-white" : ""
             }
           >
-            <RiUnderline size={16} />
+            <UnderlineIcon size={16} height={27} />
           </button>
         </>
       ) : (
@@ -184,19 +184,19 @@ const BubbleMenuBar = ({ editor }: any) => {
             onClick={() => handleImageAlignToggle("left")}
             className={imageAlign === "left" ? "bg-black text-white" : ""}
           >
-            <RiAlignLeft size={16} />
+            <AlignLeftIcon size={16} height={27} />
           </button>
           <button
             onClick={() => handleImageAlignToggle("center")}
             className={imageAlign === "center" ? "bg-black text-white" : ""}
           >
-            <RiAlignCenter size={16} />
+            <AlignCenterIcon size={16} height={27} />
           </button>
           <button
             onClick={() => handleImageAlignToggle("right")}
             className={imageAlign === "right" ? "bg-black text-white" : ""}
           >
-            <RiAlignRight size={16} />
+            <AlignRightIcon size={16} height={27} />
           </button>
         </>
       )}

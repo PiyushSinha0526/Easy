@@ -1,21 +1,25 @@
 import { useState } from "react";
 import {
-  RiAlignCenter,
-  RiAlignJustify,
-  RiAlignLeft,
-  RiAlignRight,
-  RiArrowGoBackLine,
-  RiArrowGoForwardLine,
-  RiCodeBlock,
-  RiFileCodeLine,
-  RiImageFill,
-  RiListOrdered,
-  RiListUnordered,
-  RiParagraph,
-  RiQuoteText,
-  RiRulerLine,
-  RiTaskLine,
-} from "@remixicon/react";
+  AlignCenterIcon,
+  AlignJustifyIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  CodeIcon,
+  CodeSquareIcon,
+  EraserIcon,
+  ImageIcon,
+  List,
+  ListChecksIcon,
+  ListOrderedIcon,
+  MinusIcon,
+  PilcrowIcon,
+  Redo2,
+  SquareIcon,
+  TextQuoteIcon,
+  Undo2,
+  WrapTextIcon,
+} from "lucide-react";
+
 const MenuBar = ({ editor }: any) => {
   const [dropdown, setDropdown] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
@@ -32,19 +36,19 @@ const MenuBar = ({ editor }: any) => {
 
   const handleApplyClick = () => {
     editor
-    .chain()
-    .focus()
-    .insertContent({
-      type: 'image',
-      attrs: {
-        src: imageUrl,
-        align: 'right',
-      },
-    })
-    .run();
+      .chain()
+      .focus()
+      .insertContent({
+        type: "image",
+        attrs: {
+          src: imageUrl,
+          align: "right",
+        },
+      })
+      .run();
     setDropdown(false);
   };
-  
+
   return (
     <div className="mx-0.5 mb-2 flex flex-wrap gap-2 rounded-lg p-2 text-black outline  outline-gray-200 *:cursor-pointer *:rounded-md *:border *:border-black *:px-2 *:shadow-sm *:shadow-gray-950">
       <input
@@ -65,48 +69,48 @@ const MenuBar = ({ editor }: any) => {
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive("paragraph") ? "bg-black text-white" : ""}
       >
-        <RiParagraph size={16} />
+        <PilcrowIcon size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive("bulletList") ? "bg-black text-white" : ""}
       >
-        <RiListUnordered size={16} />
+        <List size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive("orderedList") ? "bg-black text-white" : ""}
       >
-        <RiListOrdered size={16} />
+        <ListOrderedIcon size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleTaskList().run()}
         className={editor.isActive("taskList") ? "bg-black text-white" : ""}
       >
-        <RiTaskLine size={16} />
+        <ListChecksIcon size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
         className={editor.isActive("code") ? "bg-black text-white" : ""}
       >
-        <RiFileCodeLine size={16} />
+        <CodeIcon size={16} height={27} />
       </button>
 
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive("codeBlock") ? "bg-black text-white" : ""}
       >
-        <RiCodeBlock size={16} />
+        <CodeSquareIcon size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive("blockquote") ? "bg-black text-white" : ""}
       >
-        <RiQuoteText size={16} />
+        <TextQuoteIcon size={16} height={27} />
       </button>
       <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        <RiRulerLine size={16} />
+        <MinusIcon size={16} height={27} />
       </button>
       <button
         onClick={() => handleTextAlignToggle("left")}
@@ -114,7 +118,7 @@ const MenuBar = ({ editor }: any) => {
           editor.isActive({ textAlign: "left" }) ? "bg-black text-white" : ""
         }
       >
-        <RiAlignLeft size={16} />
+        <AlignLeftIcon size={16} height={27} />
       </button>
       <button
         onClick={() => handleTextAlignToggle("center")}
@@ -122,7 +126,7 @@ const MenuBar = ({ editor }: any) => {
           editor.isActive({ textAlign: "center" }) ? "bg-black text-white" : ""
         }
       >
-        <RiAlignCenter size={16} />
+        <AlignCenterIcon size={16} height={27} />
       </button>
       <button
         onClick={() => handleTextAlignToggle("right")}
@@ -130,7 +134,7 @@ const MenuBar = ({ editor }: any) => {
           editor.isActive({ textAlign: "right" }) ? "bg-black text-white" : ""
         }
       >
-        <RiAlignRight size={16} />
+        <AlignRightIcon size={16} height={27} />
       </button>
       <button
         onClick={() => handleTextAlignToggle("justify")}
@@ -138,10 +142,10 @@ const MenuBar = ({ editor }: any) => {
           editor.isActive({ textAlign: "justify" }) ? "bg-black text-white" : ""
         }
       >
-        <RiAlignJustify size={16} />
+        <AlignJustifyIcon size={16} height={27} />
       </button>
       <div onClick={() => setDropdown(!dropdown)} className="relative">
-        <RiImageFill />
+        <ImageIcon size={16} height={27} />
         {dropdown && (
           <div
             className="absolute -top-[3.25rem] left-2 z-20 flex items-center justify-center gap-2 rounded-md border border-black bg-white p-2 py-1 shadow-md shadow-black "
@@ -149,7 +153,7 @@ const MenuBar = ({ editor }: any) => {
           >
             <input
               type="text"
-              className="border"
+              className="border px-2"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
             />
@@ -166,22 +170,22 @@ const MenuBar = ({ editor }: any) => {
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().chain().focus().undo().run()}
       >
-        <RiArrowGoBackLine size={16} />
+        <Undo2 size={16} height={27} />
       </button>
       <button
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().chain().focus().redo().run()}
       >
-        <RiArrowGoForwardLine size={16} />
+        <Redo2 size={16} height={27} />
       </button>
       <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
+        <EraserIcon size={16} height={27} />
       </button>
       <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
+        <SquareIcon size={16} height={27} />
       </button>
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
+        <WrapTextIcon size={16} height={27} />
       </button>
     </div>
   );
