@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import { LogInIcon, LogOutIcon } from "lucide-react";
@@ -6,7 +6,22 @@ import useAuthStore from "../store/AuthStore";
 import logo from "../assets/logo.png";
 
 function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const { user, signout, isAuthenticated } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
@@ -21,9 +36,9 @@ function Navbar() {
           <img src={logo} alt="logo" className="w-14" />
         </Link>
         <div className="flex gap-4">
-          <ul className="flex items-center gap-2">
+          <ul className="flex items-center gap-3">
             <li>
-              <Link to={"/"} className="">
+              <Link to={"/"} className="font-semibold">
                 Blogs
               </Link>
             </li>
@@ -47,7 +62,10 @@ function Navbar() {
                   {user?.name[0].toUpperCase() || user?.email[0].toUpperCase()}
                 </span>
                 {isMenuOpen && (
-                  <div className="absolute right-0 top-[3.3rem] flex w-28 flex-col items-start gap-1 rounded-md bg-white p-1 shadow-md shadow-black ring-1 ring-black *:w-full *:font-semibold">
+                  <div
+                    ref={menuRef}
+                    className="absolute right-0 top-[3.3rem] z-40 flex w-28 flex-col items-start gap-1 rounded-md bg-white p-1 shadow-md shadow-black ring-1 ring-black *:w-full *:font-semibold"
+                  >
                     {isAuthenticated && (
                       <Link
                         to={"/myBlogs"}

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import formatDateTime from "../utils/DateTime";
 import getFirstImageSrc from "../utils/imgSrc";
+import TruncateText from "../utils/TruncateText";
 
 interface BlogListItemProps {
   id: string;
@@ -55,7 +56,7 @@ const BlogListItem = ({
         <div>
           <div className="mt-3 flex flex-col">
             <h2 className="pb-2 text-base font-bold text-slate-800 sm:text-xl">
-              {title}
+              <TruncateText text={title} breakAt={100} />
             </h2>
             <p className="hidden text-wrap text-base text-slate-600 sm:block">
               {parse(content.slice(0, 100))}...
@@ -75,9 +76,11 @@ const BlogListItem = ({
             <span>{"9"} min read</span>
           </div>
         </div>
-        {imgSrc && <div className="hidden sm:block sm:w-36">
-          <img src={imgSrc} alt={`${title} thumbnail`} />
-        </div>}
+        {imgSrc && (
+          <div className="hidden sm:block sm:w-36">
+            <img src={imgSrc} alt={`${title} thumbnail`} />
+          </div>
+        )}
       </div>
     </Link>
   );

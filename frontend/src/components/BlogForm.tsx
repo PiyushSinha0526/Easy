@@ -78,7 +78,7 @@ function BlogForm({
       <button
         onClick={() => handleSubmit()}
         type="button"
-        className="my-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
+        className="my-2 me-2 rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300"
       >
         {method == "post" ? "Create" : "Update"}
       </button>

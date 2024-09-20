@@ -68,7 +68,7 @@ const BlogContent = ({ blog }: { blog: Blog }) => {
             </div>
           )}
         </div>
-        <div className="text-3xl font-bold sm:text-[42px]">{blog.title}</div>
+        <div className="text-3xl font-bold sm:text-[42px] break-words">{blog.title}</div>
         <div>{editor && <EditorContent editor={editor} />}</div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AlignCenterIcon,
   AlignJustifyIcon,
@@ -23,6 +23,21 @@ import {
 const MenuBar = ({ editor }: any) => {
   const [dropdown, setDropdown] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   if (!editor) {
     return null;
   }
@@ -50,7 +65,7 @@ const MenuBar = ({ editor }: any) => {
   };
 
   return (
-    <div className="mx-0.5 mb-2 flex flex-wrap gap-2 rounded-lg p-2 text-black outline  outline-gray-200 *:cursor-pointer *:rounded-md *:border *:border-black *:px-2 *:shadow-sm *:shadow-gray-950">
+    <div className="mx-0.5 mb-2 flex flex-wrap gap-2 rounded-lg p-2 pt-0 text-black *:cursor-pointer *:rounded-md *:border *:border-black *:px-2 *:shadow-sm *:shadow-gray-950">
       <input
         type="color"
         className="bg-white"
@@ -148,11 +163,13 @@ const MenuBar = ({ editor }: any) => {
         <ImageIcon size={16} height={27} />
         {dropdown && (
           <div
+            ref={dropdownRef} 
             className="absolute -top-[3.25rem] left-2 z-20 flex items-center justify-center gap-2 rounded-md border border-black bg-white p-2 py-1 shadow-md shadow-black "
             onClick={(e) => e.stopPropagation()}
           >
             <input
               type="text"
+              placeholder="Enter image URL"
               className="border px-2"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
