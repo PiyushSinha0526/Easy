@@ -26,6 +26,6 @@ export const updateBlogIbput = z.object({
 
 // type inference in zod
 export type SignupInput = z.infer<typeof signupInput>;
-export type SigninInput = z.infer<typeof signupInput>;
+export type SigninInput = z.infer<typeof signinInput>;
 export type CreateBlogIbput = z.infer<typeof createBlogIbput>;
 export type UpdateBlogIbput = z.infer<typeof updateBlogIbput>;
