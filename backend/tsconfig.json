@@ -12,6 +12,10 @@
       "@cloudflare/workers-types"
     ],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
+    "jsxImportSource": "hono/jsx",
+    "include": [
+        "src/**/*", // Adjust this according to your project structure
+        "src/@types/**/*" // Include your custom types
+    ]
   },
 }
