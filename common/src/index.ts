@@ -1,13 +1,29 @@
 import z from "zod";
 export const signupInput = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  name: z.string().min(3).optional(),
+  email: z
+    .string()
+    .email("Please enter a valid email address.")
+    .min(1, "Email is required."),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long.")
+    .min(1, "Password is required."),
+  name: z
+    .string()
+    .min(3, "Name must be at least 3 characters long.")
+    .optional()
+    .nullable(),
 });
 
 export const signinInput = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z
+    .string()
+    .email("Please enter a valid email address.")
+    .min(1, "Email is required."),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters long.")
+    .min(1, "Password is required."),
 });
 
 export const createBlogIbput = z.object({
