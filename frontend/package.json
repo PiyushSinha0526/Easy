@@ -11,7 +11,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@alone_npm/easy-common": "^1.0.6",
+    "@alone_npm/easy-common": "^1.0.8",
     "@tiptap/extension-bullet-list": "^2.4.0",
     "@tiptap/extension-character-count": "^2.5.5",
     "@tiptap/extension-code": "^2.4.0",
@@ -38,10 +38,12 @@
     "lucide-react": "^0.441.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.22.3",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@tailwindcss/typography": "^0.5.13",
     "@types/dompurify": "^3.0.5",
     "@types/react": "^18.2.66",

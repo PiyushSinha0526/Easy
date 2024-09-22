@@ -36,6 +36,7 @@ const handleAuth = async (
     } else {
       console.error("Auth failed:", error);
     }
+    throw error;
   }
 };
 
