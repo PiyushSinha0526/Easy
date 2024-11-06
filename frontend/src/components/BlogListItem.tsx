@@ -10,6 +10,7 @@ interface BlogListItemProps {
   title: string;
   content: string;
   published: string;
+  timeToRead: string;
 }
 const BlogListItem = ({
   id,
@@ -17,6 +18,7 @@ const BlogListItem = ({
   title,
   content,
   published,
+  timeToRead,
 }: BlogListItemProps) => {
   let date, time;
 
@@ -73,7 +75,7 @@ const BlogListItem = ({
                 </li>
               ))}
             </ul> */}
-            <span>{"9"} min read</span>
+            <span>{timeToRead} min(s) read</span>
           </div>
         </div>
         {imgSrc && (

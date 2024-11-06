@@ -78,7 +78,7 @@ const Blogs = () => {
       </div>
     );
   }
-
+  
   return (
     <BlogsWrapper>
       {blogs.map((blog) => (
@@ -88,6 +88,7 @@ const Blogs = () => {
           authorName={blog.author.name || "anonymous"}
           title={blog.title}
           content={blog.content}
+          timeToRead={blog.readTime}
           published={blog.published}
         />
       ))}

@@ -27,11 +27,8 @@ function BlogForm({
   const handleSubmit = async () => {
     let content = Sanitize(editorRef.current.getHTML());
     const timeToRead = Math.ceil(
-      editorRef.current.storage.characterCount.words() / 210,
+      editorRef.current.storage.characterCount.words() / 150,
     );
-
-    // console.log(timeToRead);
-    // console.log(content.replace(/\s+/g, "") === "<p></p>");
 
     if (token != null) {
       const response = await axios({
